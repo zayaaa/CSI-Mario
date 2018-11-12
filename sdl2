@@ -1,0 +1,177 @@
+//
+//  main.cpp
+//  sdl2
+//
+//  Created by Isaiah Banda on 11/10/18.
+//  Copyright © 2018 Isaiah Banda. All rights reserved.
+//
+
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+
+using namespace std;
+const int WIDTH = 640, HEIGHT = 360;
+int main() {
+    
+    SDL_Surface *imageSurface = NULL;
+    SDL_Surface *windowSurface = NULL;
+    // initializes everything ..
+    if (SDL_Init( SDL_INIT_EVERYTHING ) < 0)
+    {
+        cout << "SDL could not initialize! SDL Error:" << SDL_GetError();
+        return EXIT_SUCCESS;
+    }
+    //return EXIT_SUCCESS;
+    
+    
+    //Displays that have high density it will make sure it is displayed
+    SDL_Window *window = SDL_CreateWindow( "Hello SDL World", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI);
+    
+    windowSurface = SDL_GetWindowSurface ( window );
+    
+    //Loading any image type file
+    imageSurface = IMG_Load( "mariosSDL2.bmp");
+    
+    if( NULL == imageSurface )
+    {
+        cout <<" SDL image was not loaded! SDL ERROR : " << SDL_GetError() << endl;
+    }
+    
+    
+    
+    if (NULL == window )
+    {
+        cout << " Could not create window: " << SDL_GetError() << endl;
+        return EXIT_FAILURE;
+    }
+    
+    // if an image.png does not appear
+    if (!( IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG ) )
+    {
+        cout <<" Could not initialize SDL_image : " << IMG_GetError() << endl;
+        return 1;
+    }
+    
+    SDL_Event windowEvent;
+    
+    while (true )
+    {
+        if (SDL_PollEvent( &windowEvent ))
+        {
+        
+        
+            if (SDL_QUIT == windowEvent.type)
+            {
+                break;
+            }
+                
+        }
+        
+        
+        SDL_BlitSurface( imageSurface, NULL, windowSurface, NULL);
+        
+        SDL_UpdateWindowSurface( window );
+        
+        
+    }
+    
+    SDL_FreeSurface( imageSurface );
+    SDL_FreeSurface( windowSurface );
+    
+    imageSurface = NULL;
+    windowSurface = NULL;
+    
+    
+    SDL_DestroyWindow( window );
+    
+  //from tutorials /////////////////////////////
+    //Main loop flag
+    bool quit = false;
+    
+    //Event handler
+    SDL_Event e;
+
+    //While application is running
+    while( !quit )
+    {
+        
+    
+    
+    
+    //Handle events on queue
+    while( SDL_PollEvent( &e ) != 0 )
+    {
+        //User requests quit
+        if( e.type == SDL_QUIT )
+        {
+            quit = true;
+        }
+    }
+    
+        
+        
+        
+    }
+    
+    
+    
+    //Key press surfaces constants
+    enum KeyPressSurfaces
+    {
+        KEY_PRESS_SURFACE_DEFAULT,
+        KEY_PRESS_SURFACE_UP,
+        KEY_PRESS_SURFACE_DOWN,
+        KEY_PRESS_SURFACE_LEFT,
+        KEY_PRESS_SURFACE_RIGHT,
+        KEY_PRESS_SURFACE_TOTAL
+    };
+    
+    
+    
+    
+   /*
+    //Starts up SDL and creates window
+    bool init();
+    
+    //Loads media
+    bool loadMedia();
+    
+    //Frees media and shuts down SDL
+    void close();
+    
+    //Loads individual image
+    SDL_Surface* loadSurface( std::string path );
+    
+    //The window we'll be rendering to
+    SDL_Window* gWindow = NULL;
+    
+    //The surface contained by the window
+    SDL_Surface* gScreenSurface = NULL;
+    
+    //The images that correspond to a keypress
+    SDL_Surface* gKeyPressSurfaces[ KEY_PRESS_SURFACE_TOTAL ];
+    
+    //Current displayed image
+    SDL_Surface* gCurrentSurface = NULL;
+    
+/////
+    another way to load images
+    SDL_Surface* loadSurface( std::string path )
+    {
+        //Load image at specified path
+        SDL_Surface* loadedSurface = SDL_LoadBMP( path.c_str() );
+        if( loadedSurface == NULL )
+        {
+            printf( "Unable to load image %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+        }
+        
+        return loadedSurface;
+    }
+    
+    */
+    SDL_Quit( );
+    return EXIT_SUCCESS;
+}
+
